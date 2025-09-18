@@ -137,14 +137,14 @@ class ValueWidget(QWidget, Ui_Widget):
                 self.curve = QwtPlotCurve()
                 self.curve.setSymbol(
                     QwtSymbol(QwtSymbol.Ellipse,
-                              QBrush(Qt.white),
-                              QPen(Qt.red, 2),
+                              QBrush(Qt.GlobalColor.white),
+                              QPen(Qt.GlobalColor.red, 2),
                               QSize(9, 9)))
                 self.curve.attach(self.qwtPlot)
             else:
                 self.qwtPlot = QLabel("Need Qwt >= 5.0 or matplotlib >= 1.0 !")
 
-            sizePolicy = QSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
+            sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding,QSizePolicy.Policy.Expanding)
             sizePolicy.setHorizontalStretch(0)
             sizePolicy.setVerticalStretch(0)
             sizePolicy.setHeightForWidth(self.qwtPlot.sizePolicy().hasHeightForWidth())
@@ -172,7 +172,7 @@ class ValueWidget(QWidget, Ui_Widget):
             else:
                 self.mplPlot = QLabel("Need Qwt >= 5.0 or matplotlib >= 1.0 !")
 
-            sizePolicy = QSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
+            sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding,QSizePolicy.Policy.Expanding)
             sizePolicy.setHorizontalStretch(0)
             sizePolicy.setVerticalStretch(0)
             sizePolicy.setHeightForWidth(self.mplPlot.sizePolicy().hasHeightForWidth())
@@ -195,7 +195,7 @@ class ValueWidget(QWidget, Ui_Widget):
             QgsMessageLog.logMessage(traceback.format_exc(), 'valuetool', Qgis.Critical)
 
     def keyPressEvent( self, e ):
-      if ( e.modifiers() == Qt.ControlModifier or e.modifiers() == Qt.MetaModifier ) and e.key() == Qt.Key_C:
+      if ( e.modifiers() == Qt.KeyboardModifier.ControlModifier or e.modifiers() == Qt.KeyboardModifier.MetaModifier ) and e.key() == Qt.Key.Key_C:
         items = ''
         for rec in range( self.tableWidget.rowCount() ):
           items += '"' + self.tableWidget.item( rec, 0 ).text() + '",' + self.tableWidget.item( rec, 1 ).text() + "\n"
@@ -215,12 +215,12 @@ class ValueWidget(QWidget, Ui_Widget):
         self.isActive=active
         
         if (active):
-            self.cbxEnable.setCheckState(Qt.Checked)
+            self.cbxEnable.setCheckState(Qt.CheckState.Checked)
             self.canvas.layersChanged .connect(self.invalidatePlot)
             if not self.cbxClick.isChecked():
                 self.canvas.xyCoordinates.connect(self.printValue)
         else:
-            self.cbxEnable.setCheckState(Qt.Unchecked)
+            self.cbxEnable.setCheckState(Qt.CheckState.Unchecked)
             try:
                 self.canvas.layersChanged.disconnect(self.invalidatePlot)
                 self.canvas.xyCoordinates.disconnect(self.printValue)
@@ -672,23 +672,23 @@ class ValueWidget(QWidget, Ui_Widget):
         j=0
         for layer in layers:
             item = QTableWidgetItem()
-            item.setFlags(item.flags() | Qt.ItemIsUserCheckable)
+            item.setFlags(item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
             if self.cbxLayers.currentIndex() != 2:
-                item.setFlags(item.flags() &~ Qt.ItemIsEnabled)
-                item.setCheckState(Qt.Checked)
+                item.setFlags(item.flags() &~ Qt.ItemFlag.ItemIsEnabled)
+                item.setCheckState(Qt.CheckState.Checked)
             else:
                 if layer.id() in self.layersSelected:
-                    item.setCheckState(Qt.Checked)
+                    item.setCheckState(Qt.CheckState.Checked)
                 else:
-                    item.setCheckState(Qt.Unchecked)
+                    item.setCheckState(Qt.CheckState.Unchecked)
             self.tableWidget2.setItem(j, 0, item)
             item = QTableWidgetItem(layer.name())
-            item.setData(Qt.UserRole, layer.id())
+            item.setData(Qt.ItemDataRole.UserRole, layer.id())
             self.tableWidget2.setItem(j, 1, item)
             activeBands = self.activeBandsForRaster(layer) 
             button = QToolButton()
             button.setText("#") # TODO add edit? icon
-            button.setPopupMode(QToolButton.InstantPopup)
+            button.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
             group=QActionGroup(button)
             group.setExclusive( False )
             group.triggered.connect(self.bandSelected)
@@ -731,8 +731,8 @@ class ValueWidget(QWidget, Ui_Widget):
         self.layersSelected=[]
         for i in range(0, self.tableWidget2.rowCount()):
             item=self.tableWidget2.item(i,0)
-            layerID=self.tableWidget2.item(i,1).data(Qt.UserRole)
-            if item and item.checkState()==Qt.Checked:
+            layerID=self.tableWidget2.item(i,1).data(Qt.ItemDataRole.UserRole)
+            if item and item.checkState()==Qt.CheckState.Checked:
                 self.layersSelected.append(layerID)
             elif layerID in self.layersSelected:
                 self.layersSelected.remove(layerID)

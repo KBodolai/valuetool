@@ -74,7 +74,7 @@ class ValueTool(object):
     #QObject.connect(self.valuedockwidget, SIGNAL('visibilityChanged ( bool )'), self.showHideDockWidget)
     
     # add the dockwidget to iface
-    self.iface.addDockWidget(Qt.LeftDockWidgetArea,self.valuedockwidget)
+    self.iface.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea,self.valuedockwidget)
     #self.valuewidget.show()
   
   #save settings
