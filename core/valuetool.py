@@ -28,10 +28,6 @@ from qgis.core import *
 from .valuewidget import ValueWidget
 from .valuemaptool import ValueMapTool
 
-#from selectPointTool import *
-# initialize Qt resources from file resouces.py
-from . import resources_rc
-
 class ValueTool(object):
   def __init__(self, iface):
     # save reference to the QGIS interface
@@ -74,7 +70,7 @@ class ValueTool(object):
     #QObject.connect(self.valuedockwidget, SIGNAL('visibilityChanged ( bool )'), self.showHideDockWidget)
     
     # add the dockwidget to iface
-    self.iface.addDockWidget(Qt.LeftDockWidgetArea,self.valuedockwidget)
+    self.iface.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea,self.valuedockwidget)
     #self.valuewidget.show()
   
   #save settings
