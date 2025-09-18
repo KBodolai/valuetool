@@ -28,10 +28,6 @@ from qgis.core import *
 from .valuewidget import ValueWidget
 from .valuemaptool import ValueMapTool
 
-#from selectPointTool import *
-# initialize Qt resources from file resouces.py
-from . import resources_rc
-
 class ValueTool(object):
   def __init__(self, iface):
     # save reference to the QGIS interface
